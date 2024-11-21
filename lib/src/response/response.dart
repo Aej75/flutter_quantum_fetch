@@ -23,7 +23,7 @@ class HttpResponse<T, K> {
   });
   factory HttpResponse.fromDioResponse(Response response, Decoder<K>? decoder,
       JsonResponseNode? node, final QuantumFetchConfig globalFetchConfig,
-      {List<int> validStatusCodes = const [200, 201, 204]}) {
+      {List<int> validStatusCodes = const [200, 201, 204, 304]}) {
     ///check if there is modification from local request else check from global fetch config for root node modifications
     final rootNode =
         node != null ? node.nodeName : globalFetchConfig.dataNode.nodeName;
