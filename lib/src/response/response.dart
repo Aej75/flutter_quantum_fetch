@@ -89,7 +89,7 @@ class APIResponseList<T> extends HttpResponse<List<T>, T> {
       Decoder<T>? decoder,
       JsonResponseNode? node,
       final QuantumFetchConfig globalFetchConfig,
-      {List<int> validStatusCodes = const [200, 201, 204]}) {
+      {List<int> validStatusCodes = const [200, 201, 204, 304]}) {
     final json = response.data;
     final baseData = HttpResponse<List<T>, T>.fromDioResponse(
         response, decoder, node, globalFetchConfig,
@@ -130,7 +130,7 @@ class APIResponse<T> extends HttpResponse<T, T> {
   //from dio response
   factory APIResponse.fromDioResponse(Response response, Decoder<T>? decoder,
       JsonResponseNode? node, final QuantumFetchConfig globalFetchConfig,
-      {List<int> validStatusCodes = const [200, 201, 204]}) {
+      {List<int> validStatusCodes = const [200, 201, 204, 304]}) {
     final baseData = HttpResponse<T, T>.fromDioResponse(
         response, decoder, node, globalFetchConfig,
         validStatusCodes: validStatusCodes);
