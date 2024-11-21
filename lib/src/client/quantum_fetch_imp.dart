@@ -40,17 +40,12 @@ class QuantumFetchImpl implements IQuantumFetch {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         return APIResponse<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: "Connection timed out",
           rawBody: e,
         );
       }
-      return APIResponse<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: e.message,
-          rawBody: e);
+      return APIResponse<T>(success: false, message: e.message, rawBody: e);
     }
   }
 
