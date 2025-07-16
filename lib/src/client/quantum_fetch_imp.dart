@@ -375,11 +375,12 @@ class QuantumFetchImpl implements IQuantumFetch {
   Future<Dio> get instance async {
     return Dio(
       BaseOptions(
-          baseUrl: config.baseUrl,
-          connectTimeout: Duration(milliseconds: config.connectTimeout),
-          receiveTimeout: Duration(milliseconds: config.receiveTimeout),
-          validateStatus: (d) => true,
-          headers: await getDefaultHeaders()),
+        baseUrl: config.baseUrl,
+        connectTimeout: Duration(milliseconds: config.connectTimeout),
+        receiveTimeout: Duration(milliseconds: config.receiveTimeout),
+        validateStatus: (d) => true,
+        // headers: await getDefaultHeaders(),
+      ),
     )..interceptors.addAll([
         // LogInterceptor(
         //     requestBody: true, responseBody: true, responseHeader: false),
