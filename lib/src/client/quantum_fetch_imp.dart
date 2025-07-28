@@ -379,7 +379,7 @@ class QuantumFetchImpl implements IQuantumFetch {
         connectTimeout: Duration(milliseconds: config.connectTimeout),
         receiveTimeout: Duration(milliseconds: config.receiveTimeout),
         validateStatus: (d) => true,
-        // headers: await getDefaultHeaders(),
+        headers: config.headers,
       ),
     )..interceptors.addAll([
         // LogInterceptor(
