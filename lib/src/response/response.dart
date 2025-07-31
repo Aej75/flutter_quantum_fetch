@@ -11,6 +11,8 @@ class HttpResponse<T, K> {
   T? data;
   int? statusCode;
   String? message;
+  String? error;
+
   bool success;
   dynamic rawBody;
 
@@ -20,6 +22,7 @@ class HttpResponse<T, K> {
     this.message,
     required this.success,
     required this.rawBody,
+    this.error,
   });
   factory HttpResponse.fromDioResponse(Response response, Decoder<K>? decoder,
       JsonResponseNode? node, final QuantumFetchConfig globalFetchConfig,
@@ -57,6 +60,7 @@ class HttpResponse<T, K> {
         data: data,
         statusCode: response.statusCode,
         message: errorMessageDecoder(json),
+        error: errorMessageDecoderV2(json),
         rawBody: json,
         success: ok);
   }
@@ -70,6 +74,18 @@ String? errorMessageDecoder(Map<String, dynamic> json) {
   } else if (message is List) {
     return message
         .map((e) => e is Map<String, dynamic> ? e['message'] : e)
+        .join(",");
+  }
+  return ok ? null : 'something went wrong ';
+}
+String? errorMessageDecoderV2(Map<String, dynamic> json) {
+  final message = json['error'];
+  final ok = json['ok'] as bool? ?? false;
+  if (message is String) {
+    return message;
+  } else if (message is List) {
+    return message
+        .map((e) => e is Map<String, dynamic> ? e['error'] : e)
         .join(",");
   }
   return ok ? null : 'something went wrong ';
@@ -122,6 +138,7 @@ class APIResponse<T> extends HttpResponse<T, T> {
   APIResponse(
       {super.data,
       super.message,
+      super.error,
       super.statusCode,
       super.rawBody,
       required super.success,
@@ -153,6 +170,8 @@ class APIResponse<T> extends HttpResponse<T, T> {
         message: baseData.message,
         statusCode: baseData.statusCode,
         rawBody: json,
-        success: baseData.success);
+        success: baseData.success,
+        error: baseData.error
+        );
   }
 }
