@@ -59,8 +59,8 @@ class HttpResponse<T, K> {
     return HttpResponse<T, K>(
         data: data,
         statusCode: response.statusCode,
-        message: errorMessageDecoder(json),
-        error: errorMessageDecoderV2(json),
+        // message: errorMessageDecoder(json),
+        // error: errorMessageDecoderV2(json),
         rawBody: json,
         success: ok);
   }
@@ -78,6 +78,7 @@ String? errorMessageDecoder(Map<String, dynamic> json) {
   }
   return ok ? null : 'something went wrong ';
 }
+
 String? errorMessageDecoderV2(Map<String, dynamic> json) {
   final message = json['error'];
   final ok = json['ok'] as bool? ?? false;
@@ -92,14 +93,15 @@ String? errorMessageDecoderV2(Map<String, dynamic> json) {
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
-  QuantumFetchPagination pagination;
-  APIResponseList(
-      {required this.pagination,
-      super.data,
-      super.message,
-      super.statusCode,
-      super.rawBody,
-      required super.success});
+  // QuantumFetchPagination pagination;
+  APIResponseList({
+    // required this.pagination,
+    super.data,
+    super.message,
+    super.statusCode,
+    super.rawBody,
+    required super.success,
+  });
   factory APIResponseList.fromDioResponse(
       Response response,
       Decoder<T>? decoder,
@@ -110,21 +112,21 @@ class APIResponseList<T> extends HttpResponse<List<T>, T> {
     final baseData = HttpResponse<List<T>, T>.fromDioResponse(
         response, decoder, node, globalFetchConfig,
         validStatusCodes: validStatusCodes);
-    final paginationData =
-        globalFetchConfig.paginationMetaData.rooteNode == null
-            ? json
-            : json[globalFetchConfig.paginationMetaData.rooteNode]
-                as Map<String, dynamic>?;
-    final paginationMetaData = PaginationMetaData(
-      rooteNode: globalFetchConfig.paginationMetaData.rooteNode,
-      totalNode: globalFetchConfig.paginationMetaData.totalNode,
-      currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
-      perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
-    );
+    // final paginationData =
+    //     globalFetchConfig.paginationMetaData.rooteNode == null
+    //         ? json
+    //         : json[globalFetchConfig.paginationMetaData.rooteNode]
+    //             as Map<String, dynamic>?;
+    // final paginationMetaData = PaginationMetaData(
+    //   rooteNode: globalFetchConfig.paginationMetaData.rooteNode,
+    //   totalNode: globalFetchConfig.paginationMetaData.totalNode,
+    //   currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
+    //   perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
+    // );
 
     return APIResponseList<T>(
-        pagination:
-            QuantumFetchPagination.fromJson(paginationData, paginationMetaData),
+        // pagination:
+        //     QuantumFetchPagination.fromJson(paginationData, paginationMetaData),
         data: baseData.data,
         message: baseData.message,
         rawBody: json,
@@ -171,7 +173,6 @@ class APIResponse<T> extends HttpResponse<T, T> {
         statusCode: baseData.statusCode,
         rawBody: json,
         success: baseData.success,
-        error: baseData.error
-        );
+        error: baseData.error);
   }
 }
