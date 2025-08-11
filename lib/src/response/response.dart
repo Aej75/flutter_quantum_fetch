@@ -59,37 +59,23 @@ class HttpResponse<T, K> {
     return HttpResponse<T, K>(
         data: data,
         statusCode: response.statusCode,
-        // message: errorMessageDecoder(json),
-        // error: errorMessageDecoderV2(json),
+        message: errorMessageDecoder(json),
+        error: errorMessageDecoderV2(json),
         rawBody: json,
         success: ok);
   }
 }
 
 String? errorMessageDecoder(Map<String, dynamic> json) {
-  final message = json['message'];
-  final ok = json['ok'] as bool? ?? false;
-  if (message is String) {
-    return message;
-  } else if (message is List) {
-    return message
-        .map((e) => e is Map<String, dynamic> ? e['message'] : e)
-        .join(",");
-  }
-  return ok ? null : 'something went wrong ';
+  final String? message = json['message'];
+ 
+  return message ??'Something went wrong';
 }
 
 String? errorMessageDecoderV2(Map<String, dynamic> json) {
-  final message = json['error'];
-  final ok = json['ok'] as bool? ?? false;
-  if (message is String) {
-    return message;
-  } else if (message is List) {
-    return message
-        .map((e) => e is Map<String, dynamic> ? e['error'] : e)
-        .join(",");
-  }
-  return ok ? null : 'something went wrong ';
+   final String? message = json['error'];
+ 
+  return message ??'Something went wrong';
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
