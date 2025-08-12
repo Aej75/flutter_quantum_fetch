@@ -66,16 +66,26 @@ class HttpResponse<T, K> {
   }
 }
 
-String? errorMessageDecoder(Map<String, dynamic> json) {
-  final String? message = json['message'];
- 
-  return message ??'Something went wrong';
+String? errorMessageDecoder(dynamic json) {
+  if (json is List) {
+    if (json.isEmpty) return 'Something went wrong';
+    return null;
+  } else {
+    final String? message = json['message'];
+
+    return message ?? 'Something went wrong';
+  }
 }
 
-String? errorMessageDecoderV2(Map<String, dynamic> json) {
-   final String? message = json['error'];
- 
-  return message ??'Something went wrong';
+String? errorMessageDecoderV2(dynamic json) {
+ if (json is List) {
+    if (json.isEmpty) return 'Something went wrong';
+    return null;
+  } else {
+    final String? message = json['error'];
+
+    return message ?? 'Something went wrong';
+  }
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
