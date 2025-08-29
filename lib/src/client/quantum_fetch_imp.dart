@@ -115,14 +115,14 @@ class QuantumFetchImpl implements IQuantumFetch {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: "Connection timed out",
           rawBody: e,
         );
       }
       return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: e.message,
           rawBody: e);
@@ -204,14 +204,14 @@ class QuantumFetchImpl implements IQuantumFetch {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: "Connection timed out",
           rawBody: e,
         );
       }
       return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: e.message,
           rawBody: e);
@@ -293,14 +293,14 @@ class QuantumFetchImpl implements IQuantumFetch {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: "Connection timed out",
           rawBody: e,
         );
       }
       return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: e.message,
           rawBody: e);
@@ -326,14 +326,14 @@ class QuantumFetchImpl implements IQuantumFetch {
           e.type == DioExceptionType.receiveTimeout ||
           e.type == DioExceptionType.sendTimeout) {
         return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: "Connection timed out",
           rawBody: e,
         );
       }
       return APIResponseList<T>(
-          // pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
           success: false,
           message: e.message,
           rawBody: e);

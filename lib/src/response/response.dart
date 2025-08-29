@@ -78,7 +78,7 @@ String? errorMessageDecoder(dynamic json) {
 }
 
 String? errorMessageDecoderV2(dynamic json) {
- if (json is List) {
+  if (json is List) {
     if (json.isEmpty) return 'Something went wrong';
     return null;
   } else {
@@ -89,9 +89,9 @@ String? errorMessageDecoderV2(dynamic json) {
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
-  // QuantumFetchPagination pagination;
+  QuantumFetchPagination pagination;
   APIResponseList({
-    // required this.pagination,
+    required this.pagination,
     super.data,
     super.message,
     super.statusCode,
@@ -108,26 +108,27 @@ class APIResponseList<T> extends HttpResponse<List<T>, T> {
     final baseData = HttpResponse<List<T>, T>.fromDioResponse(
         response, decoder, node, globalFetchConfig,
         validStatusCodes: validStatusCodes);
-    // final paginationData =
-    //     globalFetchConfig.paginationMetaData.rooteNode == null
-    //         ? json
-    //         : json[globalFetchConfig.paginationMetaData.rooteNode]
-    //             as Map<String, dynamic>?;
-    // final paginationMetaData = PaginationMetaData(
-    //   rooteNode: globalFetchConfig.paginationMetaData.rooteNode,
-    //   totalNode: globalFetchConfig.paginationMetaData.totalNode,
-    //   currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
-    //   perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
-    // );
+    final paginationData =
+        globalFetchConfig.paginationMetaData.rooteNode == null
+            ? json
+            : json[globalFetchConfig.paginationMetaData.rooteNode]
+                as Map<String, dynamic>?;
+    final paginationMetaData = PaginationMetaData(
+      rooteNode: globalFetchConfig.paginationMetaData.rooteNode,
+      totalNode: globalFetchConfig.paginationMetaData.totalNode,
+      currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
+      perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
+    );
 
     return APIResponseList<T>(
-        // pagination:
-        //     QuantumFetchPagination.fromJson(paginationData, paginationMetaData),
-        data: baseData.data,
-        message: baseData.message,
-        rawBody: json,
-        statusCode: baseData.statusCode,
-        success: baseData.success);
+      pagination:
+          QuantumFetchPagination.fromJson(paginationData, paginationMetaData),
+      data: baseData.data,
+      message: baseData.message,
+      rawBody: json,
+      statusCode: baseData.statusCode,
+      success: baseData.success,
+    );
   }
 }
 
