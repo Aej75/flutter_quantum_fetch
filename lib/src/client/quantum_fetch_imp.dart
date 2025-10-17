@@ -14,6 +14,29 @@ class QuantumFetchImpl implements IQuantumFetch {
 
   QuantumFetchImpl(this.config);
 
+  String _handleDioError(DioException e) {
+    switch (e.type) {
+      case DioExceptionType.connectionTimeout:
+        return "Connection timed out. Please check your internet connection.";
+      case DioExceptionType.sendTimeout:
+        return "Request timed out while sending data. Please try again.";
+      case DioExceptionType.receiveTimeout:
+        return "Request timed out while receiving data. Please try again.";
+      case DioExceptionType.badResponse:
+        final statusCode = e.response?.statusCode;
+        final statusMessage = e.response?.statusMessage;
+        return "Server error: $statusCode ${statusMessage ?? ''}";
+      case DioExceptionType.cancel:
+        return "Request was cancelled.";
+      case DioExceptionType.unknown:
+        return "Unexpected error occurred. Please check your connection.";
+      case DioExceptionType.connectionError:
+        return "No internet connection. Please check your network.";
+      default:
+        return e.message ?? "An unknown error occurred.";
+    }
+  }
+
   @override
   Future<Map<String, String>> getDefaultHeaders() async {
     final token = await config.token;
@@ -36,16 +59,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -111,21 +129,12 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
       return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: e.message,
-          rawBody: e);
+        pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -144,16 +153,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -172,16 +176,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -200,21 +199,12 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
       return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: e.message,
-          rawBody: e);
+        pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -233,16 +223,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -261,16 +246,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -289,21 +269,12 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
       return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: e.message,
-          rawBody: e);
+        pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -322,21 +293,12 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
       return APIResponseList<T>(
-          pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
-          success: false,
-          message: e.message,
-          rawBody: e);
+        pagination: QuantumFetchPagination.fromJson({}, PaginationMetaData()),
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -355,16 +317,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 
@@ -409,16 +366,11 @@ class QuantumFetchImpl implements IQuantumFetch {
       return APIResponse<T>.fromDioResponse(response,
           (json) => decoder?.call(json) ?? json as T, dataNode, config);
     } on DioException catch (e) {
-      if (e.type == DioExceptionType.connectionTimeout ||
-          e.type == DioExceptionType.receiveTimeout ||
-          e.type == DioExceptionType.sendTimeout) {
-        return APIResponse<T>(
-          success: false,
-          message: "Connection timed out",
-          rawBody: e,
-        );
-      }
-      return APIResponse<T>(success: false, message: e.message, rawBody: e);
+      return APIResponse<T>(
+        success: false,
+        message: _handleDioError(e),
+        rawBody: e,
+      );
     }
   }
 }
