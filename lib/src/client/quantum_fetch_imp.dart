@@ -342,9 +342,10 @@ class QuantumFetchImpl implements IQuantumFetch {
         //     requestBody: true, responseBody: true, responseHeader: false),
         RequestBodyIntercepter(),
         PrettyDioLogger(
-            requestHeader: true,
-            responseBody: true,
-            responseHeader: false,
+            requestHeader: config.logRequestHeader,
+            responseBody: config.logResponseBody,
+            responseHeader: config.logResponseHeader,
+            requestBody: config.logRequestBody,
             error: true,
             compact: true,
             maxWidth: 90),

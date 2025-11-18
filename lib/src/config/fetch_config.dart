@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:quantum_fetch/quantum_fetch.dart';
 import 'package:quantum_fetch/src/metadata/pagination_meta_data.dart';
 
@@ -24,4 +23,9 @@ abstract class QuantumFetchConfig {
       };
   List<Interceptor> get interceptors => [];
   PaginationMetaData get paginationMetaData => PaginationMetaData();
+
+  bool get logRequestBody => false;
+  bool get logRequestHeader => true;
+  bool get logResponseBody => true;
+  bool get logResponseHeader => false;
 }
