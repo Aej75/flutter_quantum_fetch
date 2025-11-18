@@ -1,6 +1,5 @@
 import 'dart:core';
 
-import 'package:dio/dio.dart';
 import 'package:quantum_fetch/quantum_fetch.dart';
 import 'package:quantum_fetch/src/response/pagination.dart';
 
@@ -63,13 +62,13 @@ class HttpResponse<T, K> {
 }
 
 String? errorMessageDecoder(Map<String, dynamic> json) {
-  final message = json['message'];
+  final message = json['Result']['Message'];
   final ok = json['ok'] as bool? ?? false;
   if (message is String) {
     return message;
   } else if (message is List) {
     return message
-        .map((e) => e is Map<String, dynamic> ? e['message'] : e)
+        .map((e) => e is Map<String, dynamic> ? e['Result']['Message'] : e)
         .join(",");
   }
   return ok ? null : 'something went wrong ';
