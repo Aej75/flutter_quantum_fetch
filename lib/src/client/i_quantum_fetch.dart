@@ -11,6 +11,7 @@ abstract class IQuantumFetch {
     required Decoder<T>? decoder,
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
+    Map<String, dynamic>? queryParameters,
   });
   Future<APIResponse<T>> get<T>(
     String path, {
@@ -18,6 +19,7 @@ abstract class IQuantumFetch {
     required Decoder<T>? decoder,
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
+    Map<String, dynamic>? queryParameters,
   });
   Future<Response<dynamic>> getRaw(String path,
       {OnProgress? onProgress, Map<String, dynamic> headers = const {}});
@@ -29,12 +31,16 @@ abstract class IQuantumFetch {
     required Decoder<T>? decoder,
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
   });
 
-  Future<Response<dynamic>> postRaw(String path,
-      {OnProgress? onProgress,
-      Object data = const {},
-      Map<String, dynamic> headers = const {}});
+  Future<Response<dynamic>> postRaw(
+    String path, {
+    OnProgress? onProgress,
+    Object data = const {},
+    Map<String, dynamic> headers = const {},
+    Map<String, dynamic>? queryParameters,
+  });
 
   Future<APIResponse<T>> upload<T>(
     String path, {
@@ -52,6 +58,7 @@ abstract class IQuantumFetch {
     required Decoder<T>? decoder,
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
   });
 
   Future<APIResponseList<T>> postAndGetList<T>(
@@ -61,33 +68,46 @@ abstract class IQuantumFetch {
     required Decoder<T>? decoder,
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
+    Map<String, dynamic>? queryParameters,
   });
-  Future<APIResponse<T>> patch<T>(String path,
-      {Map<String, String> headers = const {},
-      Map<String, dynamic> body = const {},
-      required Decoder<T>? decoder,
-      OnProgress? onProgress,
-      JsonResponseNode? dataNode});
+  Future<APIResponse<T>> patch<T>(
+    String path, {
+    Map<String, String> headers = const {},
+    Map<String, dynamic> body = const {},
+    required Decoder<T>? decoder,
+    OnProgress? onProgress,
+    JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
+  });
 
-  Future<APIResponseList<T>> patchAndGetList<T>(String path,
-      {Map<String, String> headers = const {},
-      Map<String, dynamic> body = const {},
-      required Decoder<T>? decoder,
-      OnProgress? onProgress,
-      JsonResponseNode? dataNode});
-  Future<APIResponse<T>> put<T>(String path,
-      {Map<String, String> headers = const {},
-      Map<String, dynamic> body = const {},
-      required Decoder<T>? decoder,
-      OnProgress? onProgress,
-      JsonResponseNode? dataNode});
+  Future<APIResponseList<T>> patchAndGetList<T>(
+    String path, {
+    Map<String, String> headers = const {},
+    Map<String, dynamic> body = const {},
+    required Decoder<T>? decoder,
+    OnProgress? onProgress,
+    JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
+  });
+  Future<APIResponse<T>> put<T>(
+    String path, {
+    Map<String, String> headers = const {},
+    Map<String, dynamic> body = const {},
+    required Decoder<T>? decoder,
+    OnProgress? onProgress,
+    JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
+  });
 
-  Future<APIResponseList<T>> putAndGetList<T>(String path,
-      {Map<String, String> headers = const {},
-      Map<String, dynamic> body = const {},
-      required Decoder<T>? decoder,
-      OnProgress? onProgress,
-      JsonResponseNode? dataNode});
+  Future<APIResponseList<T>> putAndGetList<T>(
+    String path, {
+    Map<String, String> headers = const {},
+    Map<String, dynamic> body = const {},
+    required Decoder<T>? decoder,
+    OnProgress? onProgress,
+    JsonResponseNode? dataNode,
+    Map<String, dynamic>? queryParameters,
+  });
 
   Future<Map<String, String>> getDefaultHeaders();
 }
