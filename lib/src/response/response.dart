@@ -27,14 +27,16 @@ class HttpResponse<T, K> {
     final rootNode =
         node != null ? node.nodeName : globalFetchConfig.dataNode.nodeName;
     final successNode = globalFetchConfig.successNode.nodeName;
-    final json = response.data;
+    final json = response.data != "" ? response.data : {};
     T? data;
     final ok = successNode != null
         ? (json[successNode].toString().toLowerCase() == 'true' ||
-                json[successNode].toString().toLowerCase() == 'ok' ||
-                json[successNode].toString().toLowerCase() == 'success') ??
-            false
-        : validStatusCodes.contains(response.statusCode);
+            json[successNode].toString().toLowerCase() == 'ok' ||
+            json[successNode].toString().toLowerCase() == 'success')
+        : validStatusCodes.contains(
+            (response.data != null && response.data != "")
+                ? response.data['Result']['StatusCode']
+                : response.statusCode);
     final payloadData = rootNode == null ? json : json[rootNode];
     if (ok && payloadData != null && decoder != null) {
       if (T == List<K>) {
@@ -54,7 +56,9 @@ class HttpResponse<T, K> {
 
     return HttpResponse<T, K>(
         data: data,
-        statusCode: response.statusCode,
+        statusCode: ((response.data != null && response.data != "")
+            ? response.data['Result']['StatusCode']
+            : response.statusCode),
         message: errorMessageDecoder(json),
         rawBody: json,
         success: ok);
@@ -62,10 +66,7 @@ class HttpResponse<T, K> {
 }
 
 String? errorMessageDecoder(dynamic json) {
-  if (json == "") {
-    return 'something went wrong';
-  }
-  final message = json['Result']['Message'];
+  final message = json?['Result']?['Message'] ?? "Something went wrong!";
   final ok = json['ok'] as bool? ?? false;
   if (message is String) {
     return message;
@@ -74,7 +75,7 @@ String? errorMessageDecoder(dynamic json) {
         .map((e) => e is Map<String, dynamic> ? e['Result']['Message'] : e)
         .join(",");
   }
-  return ok ? null : 'something went wrong ';
+  return ok ? null : 'Something went wrong ';
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
