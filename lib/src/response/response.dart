@@ -139,7 +139,7 @@ class APIResponse<T> extends HttpResponse<T, T> {
     final json = response.data;
     final paginationData =
         globalFetchConfig.paginationMetaData.rooteNode == null
-            ? json
+            ? json as Map<String, dynamic>?
             : json[globalFetchConfig.paginationMetaData.rooteNode]
                 as Map<String, dynamic>?;
     final paginationMetaData = PaginationMetaData(
