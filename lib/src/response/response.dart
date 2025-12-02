@@ -62,6 +62,9 @@ class HttpResponse<T, K> {
 }
 
 String? errorMessageDecoder(Map<String, dynamic> json) {
+  if (json.isEmpty) {
+    return 'something went wrong';
+  }
   final message = json['Result']['Message'];
   final ok = json['ok'] as bool? ?? false;
   if (message is String) {
