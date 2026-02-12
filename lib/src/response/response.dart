@@ -33,10 +33,7 @@ class HttpResponse<T, K> {
         ? (json[successNode].toString().toLowerCase() == 'true' ||
             json[successNode].toString().toLowerCase() == 'ok' ||
             json[successNode].toString().toLowerCase() == 'success')
-        : validStatusCodes.contains(
-            (response.data != null && response.data != "")
-                ? response.data['Result']['StatusCode']
-                : response.statusCode);
+        : validStatusCodes.contains(response.statusCode);
     final payloadData = rootNode == null ? json : json[rootNode];
     if (ok && payloadData != null && decoder != null) {
       if (T == List<K>) {
@@ -56,26 +53,21 @@ class HttpResponse<T, K> {
 
     return HttpResponse<T, K>(
         data: data,
-        statusCode: ((response.data != null && response.data != "")
-            ? response.data['Result']['StatusCode']
-            : response.statusCode),
-        message: errorMessageDecoder(json),
+        statusCode: json['statusCode'] as int? ?? response.statusCode,
+        message: json['message'] as String?,
         rawBody: json,
         success: ok);
   }
 }
 
 String? errorMessageDecoder(dynamic json) {
-  final message = json?['Result']?['Message'] ?? "Something went wrong!";
-  final ok = json['ok'] as bool? ?? false;
+  final message = json?['message'] ?? "Something went wrong!";
   if (message is String) {
     return message;
   } else if (message is List) {
-    return message
-        .map((e) => e is Map<String, dynamic> ? e['Result']['Message'] : e)
-        .join(",");
+    return message.join(",");
   }
-  return ok ? null : 'Something went wrong ';
+  return 'Something went wrong';
 }
 
 class APIResponseList<T> extends HttpResponse<List<T>, T> {
@@ -107,6 +99,10 @@ class APIResponseList<T> extends HttpResponse<List<T>, T> {
       totalNode: globalFetchConfig.paginationMetaData.totalNode,
       currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
       perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
+      totalPagesNode: globalFetchConfig.paginationMetaData.totalPagesNode,
+      sortDirNode: globalFetchConfig.paginationMetaData.sortDirNode,
+      sortColNode: globalFetchConfig.paginationMetaData.sortColNode,
+      searchQueryNode: globalFetchConfig.paginationMetaData.searchQueryNode,
     );
 
     return APIResponseList<T>(
@@ -148,6 +144,10 @@ class APIResponse<T> extends HttpResponse<T, T> {
       totalNode: globalFetchConfig.paginationMetaData.totalNode,
       currentPageNode: globalFetchConfig.paginationMetaData.currentPageNode,
       perPageNode: globalFetchConfig.paginationMetaData.perPageNode,
+      totalPagesNode: globalFetchConfig.paginationMetaData.totalPagesNode,
+      sortDirNode: globalFetchConfig.paginationMetaData.sortDirNode,
+      sortColNode: globalFetchConfig.paginationMetaData.sortColNode,
+      searchQueryNode: globalFetchConfig.paginationMetaData.searchQueryNode,
     );
     return APIResponse(
         data: baseData.data,

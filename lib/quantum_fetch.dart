@@ -9,5 +9,7 @@ export 'src/config/fetch_config.dart';
 export 'src/interceptors/cache_intercepter.dart';
 export 'src/interceptors/request_body_intercepter.dart';
 export 'src/response/data_node.dart';
+export 'src/response/pagination.dart';
 export 'src/response/response.dart';
+export 'src/metadata/pagination_meta_data.dart';
 export 'src/typedef/progress.dart';
