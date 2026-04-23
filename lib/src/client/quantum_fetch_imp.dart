@@ -37,6 +37,12 @@ class QuantumFetchImpl implements IQuantumFetch {
     }
   }
 
+  Options _buildOptions(
+    Map<String, dynamic> headers,
+    Duration? receiveTimeout,
+  ) =>
+      Options(headers: headers, receiveTimeout: receiveTimeout);
+
   @override
   Future<Map<String, String>> getDefaultHeaders() async {
     final token = await config.token;
@@ -53,6 +59,7 @@ class QuantumFetchImpl implements IQuantumFetch {
     Map<String, dynamic>? queryParameters,
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await getRaw(
@@ -60,6 +67,7 @@ class QuantumFetchImpl implements IQuantumFetch {
         queryParameters: queryParameters,
         onProgress: onProgress,
         headers: headers,
+        receiveTimeout: receiveTimeout,
       );
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
@@ -78,11 +86,12 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     Map<String, dynamic> headers = const {},
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     final dio = await instance;
     final response = await dio.get(path,
         queryParameters: queryParameters,
-        options: Options(headers: headers),
+        options: _buildOptions(headers, receiveTimeout),
         onReceiveProgress: ((count, total) =>
             onProgress?.call(total ~/ count)));
     return response;
@@ -93,12 +102,13 @@ class QuantumFetchImpl implements IQuantumFetch {
       {OnProgress? onProgress,
       Map<String, dynamic>? queryParameters,
       Object data = const {},
-      Map<String, dynamic> headers = const {}}) async {
+      Map<String, dynamic> headers = const {},
+      Duration? receiveTimeout}) async {
     final dio = await instance;
     final response = await dio.post(path,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: _buildOptions(headers, receiveTimeout),
         onSendProgress: ((count, total) => onProgress?.call(total ~/ count)));
     return response;
   }
@@ -107,12 +117,13 @@ class QuantumFetchImpl implements IQuantumFetch {
       {OnProgress? onProgress,
       Map<String, dynamic>? queryParameters,
       Map<String, dynamic> data = const {},
-      Map<String, dynamic> headers = const {}}) async {
+      Map<String, dynamic> headers = const {},
+      Duration? receiveTimeout}) async {
     final dio = await instance;
     final response = await dio.patch(path,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: _buildOptions(headers, receiveTimeout),
         onSendProgress: ((count, total) => onProgress?.call(total ~/ count)));
     return response;
   }
@@ -121,12 +132,13 @@ class QuantumFetchImpl implements IQuantumFetch {
       {OnProgress? onProgress,
       Map<String, dynamic>? queryParameters,
       Map<String, dynamic> data = const {},
-      Map<String, dynamic> headers = const {}}) async {
+      Map<String, dynamic> headers = const {},
+      Duration? receiveTimeout}) async {
     final dio = await instance;
     final response = await dio.put(path,
         queryParameters: queryParameters,
         data: data,
-        options: Options(headers: headers),
+        options: _buildOptions(headers, receiveTimeout),
         onSendProgress: ((count, total) => onProgress?.call(total ~/ count)));
     return response;
   }
@@ -139,12 +151,14 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await getRaw(path,
           queryParameters: queryParameters,
           onProgress: onProgress,
-          headers: headers);
+          headers: headers,
+          receiveTimeout: receiveTimeout);
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -166,13 +180,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await postRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -193,13 +209,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await postRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -220,13 +238,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await postRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -248,13 +268,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     required Decoder<T>? decoder,
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await patchRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -275,13 +297,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await putRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -302,13 +326,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await putRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -330,13 +356,15 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final response = await patchRaw(path,
           queryParameters: queryParameters,
           data: body,
           headers: headers,
-          onProgress: onProgress);
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponseList<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -358,11 +386,14 @@ class QuantumFetchImpl implements IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   }) async {
     try {
       final dio = await instance;
-      final response =
-          await dio.delete(path, queryParameters: queryParameters, data: body);
+      final response = await dio.delete(path,
+          queryParameters: queryParameters,
+          data: body,
+          options: _buildOptions(headers, receiveTimeout));
       return APIResponse<T>.fromDioResponse(
           response, decoder, dataNode, config);
     } on DioException catch (e) {
@@ -409,10 +440,14 @@ class QuantumFetchImpl implements IQuantumFetch {
       Map<String, dynamic> body = const {},
       T Function(Map<String, dynamic> p1)? decoder,
       OnProgress? onProgress,
-      JsonResponseNode? dataNode}) async {
+      JsonResponseNode? dataNode,
+      Duration? receiveTimeout}) async {
     try {
       final response = await postRaw(path,
-          data: body, headers: headers, onProgress: onProgress);
+          data: body,
+          headers: headers,
+          onProgress: onProgress,
+          receiveTimeout: receiveTimeout);
       return APIResponse<T>.fromDioResponse(response,
           (json) => decoder?.call(json) ?? json as T, dataNode, config);
     } on DioException catch (e) {

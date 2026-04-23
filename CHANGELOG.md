@@ -1,3 +1,6 @@
+## 0.2.7
+* Per-request `receiveTimeout` override on all request methods (get/post/put/patch/delete and their list/raw/formData variants).
+
 ## 0.0.7
 * Fixed http caching issue
 

@@ -12,6 +12,7 @@ abstract class IQuantumFetch {
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
   Future<APIResponse<T>> get<T>(
     String path, {
@@ -20,9 +21,15 @@ abstract class IQuantumFetch {
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
-  Future<Response<dynamic>> getRaw(String path,
-      {OnProgress? onProgress, Map<String, dynamic> headers = const {}});
+  Future<Response<dynamic>> getRaw(
+    String path, {
+    OnProgress? onProgress,
+    Map<String, dynamic> headers = const {},
+    Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
+  });
 
   Future<APIResponse<T>> post<T>(
     String path, {
@@ -32,6 +39,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<Response<dynamic>> postRaw(
@@ -40,6 +48,7 @@ abstract class IQuantumFetch {
     Object data = const {},
     Map<String, dynamic> headers = const {},
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<APIResponse<T>> upload<T>(
@@ -49,6 +58,7 @@ abstract class IQuantumFetch {
     T Function(Map<String, dynamic>)? decoder,
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
+    Duration? receiveTimeout,
   });
 
   Future<APIResponse<T>> delete<T>(
@@ -59,6 +69,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<APIResponseList<T>> postAndGetList<T>(
@@ -69,6 +80,7 @@ abstract class IQuantumFetch {
     JsonResponseNode? dataNode,
     OnProgress? onProgress,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
   Future<APIResponse<T>> patch<T>(
     String path, {
@@ -78,6 +90,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<APIResponseList<T>> patchAndGetList<T>(
@@ -88,6 +101,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
   Future<APIResponse<T>> put<T>(
     String path, {
@@ -97,6 +111,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<APIResponseList<T>> putAndGetList<T>(
@@ -107,6 +122,7 @@ abstract class IQuantumFetch {
     OnProgress? onProgress,
     JsonResponseNode? dataNode,
     Map<String, dynamic>? queryParameters,
+    Duration? receiveTimeout,
   });
 
   Future<Map<String, String>> getDefaultHeaders();
